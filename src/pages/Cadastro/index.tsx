@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
+import { observer } from 'mobx-react'
+import { useStore } from '@/mobx/useStore.ts'
 import {
     Section,
     Container,
@@ -17,7 +19,9 @@ import RadioInput from '@/components/RadioInput'
 import Botao from '@/components/Botao'
 import ilustracao from '@/assets/images/ilustracao-cadastro.png'
 
-const Cadastro = () => {
+const Cadastro = observer(() => {
+    const { usuarioStore } = useStore()
+
     const navigate = useNavigate()
 
     const [nome, setNome] = useState('')
@@ -25,6 +29,12 @@ const Cadastro = () => {
     const [objetivoFinanceiro, setObjetivoFinanceiro] = useState('')
 
     const aoSubmeterFormulario = () => {
+        usuarioStore.defineDadosUsuario({
+            nome: nome,
+            renda: Number(renda),
+            objetivoFinanceiro: objetivoFinanceiro,
+        })
+
         navigate('/home')
     }
 
@@ -130,6 +140,6 @@ const Cadastro = () => {
             </SectionWrapper>
         </Section>
     )
-}
+})
 
 export default Cadastro
