@@ -1,6 +1,7 @@
 import { autorun, makeAutoObservable, reaction } from 'mobx'
 import type { DadosUsuario } from '@/types/DadosUsuario'
 import type { ObjetivoFinanceiro } from '@/types/ObjetivoFinanceiro'
+import type { NovaTransacao } from '@/types/NovaTransacao'
 
 const DIAS_DO_MES = 30
 
@@ -51,6 +52,15 @@ class UsuarioStore {
 
     calculaOrcamentoDiario() {
         this.orcamentoDiario = Math.floor(this.renda / DIAS_DO_MES)
+    }
+
+    atualizaOrcamentoDiario(transacao: NovaTransacao) {
+        if (transacao.tipo !== 'receita') {
+            this.orcamentoDiario -= transacao.valor
+            return
+        }
+
+        this.orcamentoDiario += transacao.valor
     }
 
     get objetivoFinanceiroAtual() {
