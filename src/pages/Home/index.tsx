@@ -1,5 +1,4 @@
 import { Container, Movimentacoes, Orcamento } from './styled'
-import type { TransacaoDados } from '@/types/TransacaoDados'
 import type { ContaBancaria } from '@/types/ContaBancaria'
 import BarraLateral from '@/components/BarraLateral'
 import BarraPesquisa from '@/components/BarraPesquisa'
@@ -9,33 +8,6 @@ import MetaFinanceira from '@/components/MetaFinanceira'
 import Transacoes from '@/components/Transacoes'
 import Contas from '@/components/Contas'
 import BalancoFinanceiro from '@/components/BalancoFinanceiro'
-
-const transacoes: TransacaoDados[] = [
-    {
-        id: 1,
-        nome: 'Compra de supermercado',
-        valor: 150,
-        tipo: 'despesa',
-        categoria: 'Alimentação',
-        data: '2024-10-10',
-    },
-    {
-        id: 2,
-        nome: 'Pagamento de aluguel',
-        valor: 1000,
-        tipo: 'despesa',
-        categoria: 'Moradia',
-        data: '2024-10-05',
-    },
-    {
-        id: 3,
-        nome: 'Recebimento de salário',
-        valor: 3000,
-        tipo: 'receita',
-        categoria: 'Renda',
-        data: '2024-10-01',
-    },
-]
 
 const contas: ContaBancaria[] = [
     { id: 1, banco: 'Anybank', saldo: 1500 },
@@ -54,7 +26,7 @@ function Home() {
                 <MetaFinanceira />
             </Orcamento>
             <Movimentacoes>
-                <Transacoes transacoes={transacoes} />
+                <Transacoes />
                 <Contas contas={contas} />
             </Movimentacoes>
             <BalancoFinanceiro />
