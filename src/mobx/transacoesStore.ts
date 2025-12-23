@@ -1,7 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import type { TransacaoDados } from '@/types/TransacaoDados'
-
-type NovaTransacao = Omit<TransacaoDados, 'id'>
+import type { NovaTransacao } from '@/types/NovaTransacao'
 
 class TransacoesStore {
     transacoes: TransacaoDados[] = []
