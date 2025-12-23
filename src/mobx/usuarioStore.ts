@@ -63,6 +63,10 @@ class UsuarioStore {
         this.orcamentoDiario += transacao.valor
     }
 
+    atualizaOrcamentoComSaldo(saldo: number) {
+        this.orcamentoDiario += saldo
+    }
+
     get objetivoFinanceiroAtual() {
         if (!this.objetivosTipos[this.objetivoFinanceiro]) {
             return null
