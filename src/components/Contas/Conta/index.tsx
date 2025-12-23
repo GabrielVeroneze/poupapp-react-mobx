@@ -1,3 +1,4 @@
+import { formatadorMoeda } from '@/utils/formatadorMoeda'
 import { ItemConta, SaldoConta, TituloConta } from './styled'
 import type { ContaBancaria } from '@/types/ContaBancaria'
 import BankIcon from '@/components/Icones/BankIcon'
@@ -15,7 +16,7 @@ const Conta = ({ conta }: ContaProps) => {
             </TituloConta>
             <SaldoConta>
                 <p>Saldo</p>
-                <span>{conta.saldo}</span>
+                <span>{formatadorMoeda.format(conta.saldo)}</span>
             </SaldoConta>
         </ItemConta>
     )
