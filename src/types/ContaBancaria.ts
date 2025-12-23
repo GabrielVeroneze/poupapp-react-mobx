@@ -1,5 +1,5 @@
 export interface ContaBancaria {
-    id: number
+    id: string
     banco: string
     saldo: number
 }
