@@ -1,7 +1,7 @@
 export type TipoTransacao = 'receita' | 'despesa'
 
 export interface TransacaoDados {
-    id: number
+    id: string
     nome: string
     valor: number
     tipo: TipoTransacao
