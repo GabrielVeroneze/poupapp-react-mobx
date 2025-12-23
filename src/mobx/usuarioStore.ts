@@ -1,4 +1,4 @@
-import { autorun, makeAutoObservable } from 'mobx'
+import { autorun, makeAutoObservable, reaction } from 'mobx'
 import type { DadosUsuario } from '@/types/DadosUsuario'
 import type { ObjetivoFinanceiro } from '@/types/ObjetivoFinanceiro'
 
@@ -35,6 +35,11 @@ class UsuarioStore {
 
             localStorage.setItem('usuario', JSON.stringify(userState))
         })
+
+        reaction(
+            () => this.orcamentoDiario,
+            () => console.log('Orçamento diário atualizado'),
+        )
     }
 
     defineDadosUsuario({ nome, renda, objetivoFinanceiro }: DadosUsuario) {
