@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { observer } from 'mobx-react'
+import { useStore } from '@/mobx/useStore'
 import { Container, ListaMovimentacoes } from '@/components/Contas/styled'
-import type { TransacaoDados } from '@/types/TransacaoDados'
 import Cartao from '@/components/Cartao'
 import CartaoCabecalho from '@/components/Cartao/CartaoCabecalho'
 import Botao from '@/components/Botao'
@@ -8,11 +9,8 @@ import MoneyIcon from '@/components/Icones/MoneyIcon'
 import Transacao from './Transacao'
 import TransacaoModal from './TransacaoModal'
 
-interface TransacoesProps {
-    transacoes: TransacaoDados[]
-}
-
-const Transacoes = ({ transacoes }: TransacoesProps) => {
+const Transacoes = observer(() => {
+    const { transacoesStore } = useStore()
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const handleOpenModal = () => {
@@ -28,7 +26,7 @@ const Transacoes = ({ transacoes }: TransacoesProps) => {
             <CartaoCabecalho>Movimentação financeira</CartaoCabecalho>
             <Container>
                 <ListaMovimentacoes>
-                    {transacoes.map((transacao) => (
+                    {transacoesStore.transacoes.map((transacao) => (
                         <Transacao key={transacao.id} transacao={transacao} />
                     ))}
                 </ListaMovimentacoes>
@@ -45,5 +43,6 @@ const Transacoes = ({ transacoes }: TransacoesProps) => {
             </Container>
         </Cartao>
     )
-}
+})
+
 export default Transacoes
