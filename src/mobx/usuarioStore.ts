@@ -14,6 +14,11 @@ class UsuarioStore {
         investir: 0.15,
         'controlar-gastos': 0.8,
     }
+    objetivosTipos: Record<ObjetivoFinanceiro, string> = {
+        economizar: 'Economizar',
+        investir: 'Investir',
+        'controlar-gastos': 'Controlar gastos',
+    }
 
     constructor() {
         makeAutoObservable(this)
@@ -28,6 +33,14 @@ class UsuarioStore {
 
     calculaOrcamentoDiario() {
         this.orcamentoDiario = Math.floor(this.renda / DIAS_DO_MES)
+    }
+
+    get objetivoFinanceiroAtual() {
+        if (!this.objetivosTipos[this.objetivoFinanceiro]) {
+            return null
+        }
+
+        return this.objetivosTipos[this.objetivoFinanceiro]
     }
 
     get progressoMeta() {
