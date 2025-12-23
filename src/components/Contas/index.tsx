@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { observer } from 'mobx-react'
+import { useStore } from '@/mobx/useStore'
 import { Container, ListaMovimentacoes } from './styled'
-import type { ContaBancaria } from '@/types/ContaBancaria'
+import type { NovaConta } from '@/types/NovaConta'
 import Cartao from '@/components/Cartao'
 import CartaoCabecalho from '@/components/Cartao/CartaoCabecalho'
 import Botao from '@/components/Botao'
@@ -12,13 +14,11 @@ import Label from '@/components/Label'
 import CampoTexto from '@/components/CampoTexto'
 import Conta from './Conta'
 
-interface ContasProps {
-    contas: ContaBancaria[]
-}
+const Contas = observer(() => {
+    const { contasStore, usuarioStore } = useStore()
 
-const Contas = ({ contas }: ContasProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [novaConta, setNovaConta] = useState({
+    const [novaConta, setNovaConta] = useState<NovaConta>({
         banco: '',
         saldo: 0,
     })
@@ -32,6 +32,9 @@ const Contas = ({ contas }: ContasProps) => {
     }
 
     const aoAdicionarConta = () => {
+        contasStore.adicionarConta(novaConta)
+        usuarioStore.atualizaOrcamentoComSaldo(novaConta.saldo)
+
         handleCloseModal()
     }
 
@@ -40,7 +43,7 @@ const Contas = ({ contas }: ContasProps) => {
             <CartaoCabecalho>Minhas contas</CartaoCabecalho>
             <Container>
                 <ListaMovimentacoes>
-                    {contas.map((conta) => (
+                    {contasStore.contas.map((conta) => (
                         <Conta key={conta.id} conta={conta} />
                     ))}
                 </ListaMovimentacoes>
@@ -93,5 +96,6 @@ const Contas = ({ contas }: ContasProps) => {
             </Container>
         </Cartao>
     )
-}
+})
+
 export default Contas
