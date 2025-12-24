@@ -8,6 +8,8 @@ import {
     Tooltip,
 } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
+import { observer } from 'mobx-react'
+import { useStore } from '@/mobx/useStore'
 import { AreaChart } from './styled'
 import Cartao from '@/components/Cartao'
 import CartaoCabecalho from '@/components/Cartao/CartaoCabecalho'
@@ -22,13 +24,17 @@ ChartJS.register(
     Tooltip,
 )
 
-const BalancoFinanceiro = () => {
+const BalancoFinanceiro = observer(() => {
+    const { transacoesStore } = useStore()
+
+    const categoriasAgrupadas = transacoesStore.gastosPorCategoria
+
     const data = {
-        labels: [],
+        labels: Object.keys(categoriasAgrupadas),
         datasets: [
             {
                 label: 'Gastos por categoria',
-                data: [],
+                data: Object.values(categoriasAgrupadas),
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -70,5 +76,6 @@ const BalancoFinanceiro = () => {
             </CartaoCorpo>
         </Cartao>
     )
-}
+})
+
 export default BalancoFinanceiro
