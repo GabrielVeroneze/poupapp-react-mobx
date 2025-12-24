@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx'
+import { autorun, makeAutoObservable } from 'mobx'
 import type { TransacaoDados } from '@/types/TransacaoDados'
 import type { NovaTransacao } from '@/types/NovaTransacao'
 
@@ -7,6 +7,12 @@ class TransacoesStore {
 
     constructor() {
         makeAutoObservable(this)
+
+        this.carregarDoLocalStorage()
+
+        autorun(() => {
+            localStorage.setItem('transacoes', JSON.stringify(this.transacoes))
+        })
     }
 
     adicionaTransacao(novaTransacao: NovaTransacao) {
@@ -16,6 +22,18 @@ class TransacoesStore {
         }
 
         this.transacoes.push(transacao)
+    }
+
+    private carregarDoLocalStorage() {
+        const dados = localStorage.getItem('transacoes')
+
+        if (dados) {
+            try {
+                this.transacoes = JSON.parse(dados)
+            } catch (error) {
+                console.error('TransacoesStore: carregarDoLocalStorage', error)
+            }
+        }
     }
 }
 
