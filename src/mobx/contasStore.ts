@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx'
+import { autorun, makeAutoObservable } from 'mobx'
 import type { ContaBancaria } from '@/types/ContaBancaria'
 import type { NovaConta } from '@/types/NovaConta'
 
@@ -7,6 +7,12 @@ class ContasStore {
 
     constructor() {
         makeAutoObservable(this)
+
+        this.carregarDoLocalStorage()
+
+        autorun(() => {
+            localStorage.setItem('contas', JSON.stringify(this.contas))
+        })
     }
 
     adicionarConta(novaConta: NovaConta) {
@@ -16,6 +22,18 @@ class ContasStore {
         }
 
         this.contas.push(conta)
+    }
+
+    private carregarDoLocalStorage() {
+        const dados = localStorage.getItem('contas')
+
+        if (dados) {
+            try {
+                this.contas = JSON.parse(dados)
+            } catch (error) {
+                console.error('ContasStore: carregarDoLocalStorage', error)
+            }
+        }
     }
 }
 
