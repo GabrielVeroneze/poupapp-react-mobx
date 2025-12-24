@@ -2,6 +2,8 @@ import { autorun, makeAutoObservable } from 'mobx'
 import type { TransacaoDados } from '@/types/TransacaoDados'
 import type { NovaTransacao } from '@/types/NovaTransacao'
 
+type GastosPorCategoria = Record<string, number>
+
 class TransacoesStore {
     transacoes: TransacaoDados[] = []
 
@@ -22,6 +24,17 @@ class TransacoesStore {
         }
 
         this.transacoes.push(transacao)
+    }
+
+    get gastosPorCategoria() {
+        return this.transacoes
+            .filter((transacao) => transacao.tipo === 'despesa')
+            .reduce<GastosPorCategoria>((valorAcumulado, transacao) => {
+                valorAcumulado[transacao.categoria] =
+                    (valorAcumulado[transacao.categoria] || 0) + transacao.valor
+
+                return valorAcumulado
+            }, {})
     }
 
     private carregarDoLocalStorage() {
